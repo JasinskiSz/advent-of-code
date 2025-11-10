@@ -8,11 +8,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @BenchmarkMode(Mode.AverageTime)
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@OutputTimeUnit(TimeUnit.MICROSECONDS)
 @State(Scope.Thread)
 @Warmup(iterations = 10, time = 1)
 @Measurement(iterations = 10, time = 1)
@@ -104,6 +105,29 @@ public class EndToEndBenchmark {
 
             totalPaperNeeded += 2 * length * width + 2 * width * height + 2 * length * height + smallest * secondSmallest;
         }
+        return totalPaperNeeded;
+    }
+
+    @Benchmark
+    public int solution3_arraySort() {
+        int totalPaperNeeded = 0;
+
+        for (String line : lines) {
+            String[] split = line.split("x");
+            int[] dimensions = {
+                    Integer.parseInt(split[0]),
+                    Integer.parseInt(split[1]),
+                    Integer.parseInt(split[2])
+            };
+            Arrays.sort(dimensions);
+
+            int length = dimensions[0];
+            int width = dimensions[1];
+            int height = dimensions[2];
+
+            totalPaperNeeded += 2 * length * width + 2 * width * height + 2 * length * height + length * width;
+        }
+
         return totalPaperNeeded;
     }
 }

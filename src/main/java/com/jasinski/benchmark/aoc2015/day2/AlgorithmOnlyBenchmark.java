@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -89,6 +90,28 @@ public class AlgorithmOnlyBenchmark {
 
             totalPaperNeeded += (2 * dimension.length() * dimension.width() + 2 * dimension.width() * dimension.height() + 2 * dimension.height() * dimension.length()) + smallest * secondSmallest;
         }
+        return totalPaperNeeded;
+    }
+
+    @Benchmark
+    public int solution3_arraySort() {
+        int totalPaperNeeded = 0;
+
+        for (Dimension dimension : parsedLines) {
+            int[] dimensions = {
+                    dimension.length(),
+                    dimension.width(),
+                    dimension.height()
+            };
+            Arrays.sort(dimensions);
+
+            int length = dimensions[0];
+            int width = dimensions[1];
+            int height = dimensions[2];
+
+            totalPaperNeeded += 2 * length * width + 2 * width * height + 2 * length * height + length * width;
+        }
+
         return totalPaperNeeded;
     }
 }
