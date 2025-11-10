@@ -79,10 +79,14 @@ public class AlgorithmOnlyBenchmark {
     @Benchmark
     public int solution2_math() {
         int totalPaperNeeded = 0;
+
         for (Dimension dimension : parsedLines) {
+
             int smallest = Math.min(dimension.length(), Math.min(dimension.width(), dimension.height()));
             int largest = Math.max(dimension.length(), Math.max(dimension.width(), dimension.height()));
+
             int secondSmallest = dimension.length() + dimension.width() + dimension.height() - smallest - largest;
+
             totalPaperNeeded += (2 * dimension.length() * dimension.width() + 2 * dimension.width() * dimension.height() + 2 * dimension.height() * dimension.length()) + smallest * secondSmallest;
         }
         return totalPaperNeeded;
