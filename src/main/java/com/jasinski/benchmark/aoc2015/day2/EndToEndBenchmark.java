@@ -157,4 +157,26 @@ public class EndToEndBenchmark {
 
         return totalPaperNeeded;
     }
+
+    @Benchmark
+    public int solution4_manualParsing() {
+        int totalPaperNeeded = 0;
+
+        for (String line : lines) {
+            int firstX = line.indexOf("x");
+            int secondX = line.indexOf("x", firstX + 1);
+
+            int length = Integer.parseInt(line.substring(0, firstX));
+            int width = Integer.parseInt(line.substring(firstX + 1, secondX));
+            int height = Integer.parseInt(line.substring(secondX + 1));
+
+            int smallest = Math.min(length, Math.min(width, height));
+            int largest = Math.max(length, Math.max(width, height));
+
+            int secondSmallest = length + width + height - smallest - largest;
+
+            totalPaperNeeded += 2 * length * width + 2 * width * height + 2 * length * height + smallest * secondSmallest;
+        }
+        return totalPaperNeeded;
+    }
 }
