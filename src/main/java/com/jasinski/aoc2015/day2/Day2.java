@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Day2 {
     public static void main(String[] args) {
+        // Part 1:
         // length x width x height
         // find the surface area of each box
         // 2*l*w + 2*w*h + 2*h*l
@@ -42,40 +43,19 @@ public class Day2 {
 
         for (String line : lines) {
 
-            String[] dimensions = line.split("x");
-            int length = Integer.parseInt(dimensions[0]);
-            int width = Integer.parseInt(dimensions[1]);
-            int height = Integer.parseInt(dimensions[2]);
+            int firstX = line.indexOf("x");
+            int secondX = line.indexOf("x", firstX + 1);
 
-            int smallest;
-            int secondSmallest;
-            if (length <= width && length <= height) {
-//                length is the smallest
-                smallest = length;
-                if (width <= height) {
-                    secondSmallest = width;
-                } else {
-                    secondSmallest = height;
-                }
-            } else if (width <= length && width <= height) {
-//                width is the smallest
-                smallest = width;
-                if (length <= height) {
-                    secondSmallest = length;
-                } else {
-                    secondSmallest = height;
-                }
-            } else {
-//                height is the smallest
-                smallest = height;
-                if (length <= width) {
-                    secondSmallest = length;
-                } else {
-                    secondSmallest = width;
-                }
-            }
+            int length = Integer.parseInt(line.substring(0, firstX));
+            int width = Integer.parseInt(line.substring(firstX + 1, secondX));
+            int height = Integer.parseInt(line.substring(secondX + 1));
 
-            totalPaperNeeded += 2 * length * width + 2 * width * height + 2 * length * height + smallest * secondSmallest;
+            int smallest = Math.min(length, Math.min(width, height));
+            int largest = Math.max(length, Math.max(width, height));
+
+            int secondSmallest = length + width + height - smallest - largest;
+
+            totalPaperNeeded += 2 * (length * width + width * height + height * length) + smallest * secondSmallest;
         }
 
         System.out.println("Total paper needed for all the presents is " + totalPaperNeeded + " square feet.");
