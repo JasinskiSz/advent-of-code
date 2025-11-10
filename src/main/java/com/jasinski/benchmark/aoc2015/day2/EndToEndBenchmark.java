@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
@@ -94,6 +95,32 @@ public class EndToEndBenchmark {
 
         for (String line : lines) {
             String[] split = line.split("x");
+            int length = Integer.parseInt(split[0]);
+            int width = Integer.parseInt(split[1]);
+            int height = Integer.parseInt(split[2]);
+
+            int smallest = Math.min(length, Math.min(width, height));
+            int largest = Math.max(length, Math.max(width, height));
+
+            int secondSmallest = length + width + height - smallest - largest;
+
+            totalPaperNeeded += 2 * length * width + 2 * width * height + 2 * length * height + smallest * secondSmallest;
+        }
+        return totalPaperNeeded;
+    }
+
+    /**
+     * This is a solution 2 variant, that uses precompiled split patter that might be faster.
+     */
+
+    private static final Pattern SPLIT_PATTERN = Pattern.compile("x");
+
+    @Benchmark
+    public int solution2_math_precompiledPattern() {
+        int totalPaperNeeded = 0;
+
+        for (String line : lines) {
+            String[] split = SPLIT_PATTERN.split(line);
             int length = Integer.parseInt(split[0]);
             int width = Integer.parseInt(split[1]);
             int height = Integer.parseInt(split[2]);
