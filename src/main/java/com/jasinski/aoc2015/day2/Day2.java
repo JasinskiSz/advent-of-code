@@ -16,6 +16,11 @@ public class Day2 {
         // 2*l*w + 2*w*h + 2*h*l
         // + the area of the smallest side
 
+        // Part 2:
+        // Ribbon required to wrap a present is the shortest distance around its sides.
+        // The feet of ribbon required for the bow is equal to cubic feet of volume of the present.
+        // That gives ribbon to wrap + ribbon for bow.
+
         List<String> lines = new ArrayList<>();
 
         // -----------------------------------------
@@ -40,6 +45,7 @@ public class Day2 {
         // ------------------------------------
 
         int totalPaperNeeded = 0; // in square feet
+        int totalRibbonNeeded = 0; // in feet
 
         for (String line : lines) {
 
@@ -56,8 +62,10 @@ public class Day2 {
             int secondSmallest = length + width + height - smallest - largest;
 
             totalPaperNeeded += 2 * (length * width + width * height + height * length) + smallest * secondSmallest;
+            totalRibbonNeeded += length * width * height + smallest * 2 + secondSmallest * 2;
         }
 
         System.out.println("Total paper needed for all the presents is " + totalPaperNeeded + " square feet.");
+        System.out.println("Total ribbon length needed to order is " + totalRibbonNeeded + " feet.");
     }
 }
