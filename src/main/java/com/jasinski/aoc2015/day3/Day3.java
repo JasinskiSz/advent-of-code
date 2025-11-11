@@ -32,36 +32,49 @@ public class Day3 {
         // Solution section
         // ----------------
 
+        // Part 2:
+        // First house gets 2 presents - 1 from Santa and 1 from robot
+        // Santa and Robot take turns in moving
+
         Set<House> houses = new HashSet<>();
 
         // Delivery is made first, only then Santa moves.
-        int x = 0;
-        int y = 0;
+        // [0] is Santa coords
+        // [1] is Robot coords
+        int[] x = {0, 0};
+        int[] y = {0, 0};
 
         // First house is on the starting position and only then Santa receives next instructions.
-        houses.add(new House(x, y));
+        houses.add(new House(0, 0));
+
+        int index = 0; // because Santa moves first
 
         for (String line : lines) {
             for (char c : line.toCharArray()) {
                 switch (c) {
                     case '^':
-                        y++;
+                        y[index]++;
                         break;
                     case '>':
-                        x++;
+                        x[index]++;
                         break;
                     case 'v':
-                        y--;
+                        y[index]--;
                         break;
                     case '<':
-                        x--;
+                        x[index]--;
                         break;
                     default:
                         throw new IllegalArgumentException("Invalid input");
                 }
 
-                houses.add(new House(x, y));
+                houses.add(new House(x[index], y[index]));
 
+                if (index == 0) {
+                    index = 1;
+                } else {
+                    index = 0;
+                }
             }
         }
 
