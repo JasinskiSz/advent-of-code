@@ -38,12 +38,12 @@ public class Day6 {
         // Grid creation section
         // ---------------------
 
-        Boolean[][] grid = new Boolean[1000][1000]; // this grid represents a grid of light bulbs
+        Integer[][] grid = new Integer[1000][1000]; // this grid represents a grid of light bulbs
 
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[x].length; y++) {
                 // filling the grid with turned off light bulbs
-                grid[x][y] = false;
+                grid[x][y] = 0;
             }
         }
 
@@ -55,14 +55,14 @@ public class Day6 {
             String[] split = line.split(" ");
             int x, y;
             int endX, endY;
-            Boolean lightsOn = null;
+            int brightness = 2;
             String[] startCoords, endCoords;
 
             if (split.length == 5) {
                 if (split[1].equals("off")) {
-                    lightsOn = false;
+                    brightness = -1;
                 } else if (split[1].equals("on")) {
-                    lightsOn = true;
+                    brightness = 1;
                 } else {
                     throw new IllegalArgumentException("Unexpected argument - got something else than 'on' or 'off'.");
                 }
@@ -84,10 +84,10 @@ public class Day6 {
 
             for (int i = y; i <= endY; i++) {
                 for (int j = x; j <= endX; j++) {
-                    if (lightsOn == null) {
-                        grid[j][i] = !grid[j][i];
+                    if (grid[j][i] + brightness < 0) {
+                        grid[j][i] = 0;
                     } else {
-                        grid[j][i] = lightsOn;
+                        grid[j][i] += brightness;
                     }
                 }
             }
@@ -97,15 +97,13 @@ public class Day6 {
         // Count the turned on lights
         // --------------------------
 
-        int counter = 0;
+        int totalBrightness = 0;
         for (int y = 0; y < grid.length; y++) {
             for (int x = 0; x < grid[y].length; x++) {
-                if (grid[x][y]) {
-                    counter++;
-                }
+                totalBrightness += grid[x][y];
             }
         }
-        System.out.print("Number of bulbs that are turned on: ");
-        System.out.println(counter);
+        System.out.print("Brightness of the bulbs: ");
+        System.out.println(totalBrightness);
     }
 }
